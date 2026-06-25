@@ -21,25 +21,45 @@ const engineProfiles = {
     label: "worldmonitor",
     method: "全球态势感知",
     role: "用策展信息源、跨流相关性、地缘/灾害/军事/金融信号发现异常事件。",
-    features: ["500+ 信息源监控", "地缘/灾害/军事/金融交叉", "异常事件触发", "国家不稳定与风险雷达"],
+    repoUrl: "https://github.com/koala73/worldmonitor.git",
+    docsUrl: "https://www.worldmonitor.app/docs/documentation",
+    license: "AGPL-3.0-only",
+    quickStart: ["git clone https://github.com/koala73/worldmonitor.git", "cd worldmonitor", "npm install", "npm run dev"],
+    requirements: ["Node.js / npm", "无环境变量即可启动基础应用", "特定实时数据源按 .env.example 配置凭证"],
+    features: ["500+ 策展新闻源", "3D globe 与 WebGL 地图层", "军事实体/经济/灾害/升级信号交叉", "国家不稳定指数 CII", "金融雷达", "Ollama 本地 AI", "Tauri 桌面应用", "24 种语言"],
   },
   "digital-oracle": {
     label: "digital-oracle",
     method: "价格信号交叉验证",
     role: "用预测市场、商品、汇率、利率、期权和风险比值验证宏观判断。",
-    features: ["预测市场", "商品/汇率/利率", "期权与波动率", "三维以上证据验证"],
+    repoUrl: "https://github.com/komako-workshop/digital-oracle.git",
+    docsUrl: "https://github.com/komako-workshop/digital-oracle/blob/main/SKILL.md",
+    license: "MIT",
+    quickStart: ["clawhub install digital-oracle", "或 clone 仓库并读取 SKILL.md", "uv pip install yfinance"],
+    requirements: ["uv", "11/12 个 provider 仅依赖 Python 标准库", "期权链分析需要 yfinance"],
+    features: ["Polymarket / Kalshi 预测市场", "国债收益率曲线", "CFTC 机构持仓", "SEC 内部人交易", "Deribit 加密衍生品", "BIS 与 World Bank", "3+ 独立信号交叉验证", "结构化概率报告"],
   },
   qlib: {
     label: "Qlib",
     method: "量化研究流水线",
     role: "把投资线索接入因子、模型训练、回测、风险建模和组合优化。",
-    features: ["因子研究", "模型训练", "回测评估", "风险与组合优化"],
+    repoUrl: "https://github.com/microsoft/qlib.git",
+    docsUrl: "https://qlib.readthedocs.io/en/latest/",
+    license: "开源许可见原仓库 LICENSE",
+    quickStart: ["pip install pyqlib", "或 git clone https://github.com/microsoft/qlib.git", "cd qlib && pip install ."],
+    requirements: ["Python 3.8 - 3.12", "建议 Conda 管理 Python 环境", "Mac M1 构建 LightGBM 可能需要 brew install libomp", "数据准备需参考官方文档"],
+    features: ["数据处理", "监督学习", "市场动态建模", "强化学习", "模型训练", "回测", "Alpha 挖掘", "风险建模", "组合优化", "订单执行", "在线服务"],
   },
   "a-stock-data": {
     label: "a-stock-data",
     method: "A 股七层数据接入",
     role: "提供行情、研报、热点、资金、新闻、财务和公告等中国市场证据。",
-    features: ["行情", "研报", "资金", "公告/财务/新闻"],
+    repoUrl: "https://github.com/simonlin1212/a-stock-data.git",
+    docsUrl: "https://github.com/simonlin1212/a-stock-data/blob/main/SKILL.md",
+    license: "按原仓库说明执行",
+    quickStart: ["mkdir -p ~/.claude/skills/a-stock-data", "curl -o ~/.claude/skills/a-stock-data/SKILL.md https://raw.githubusercontent.com/simonlin1212/a-stock-data/main/SKILL.md", "pip install mootdx requests pandas stockstats"],
+    requirements: ["Python", "mootdx", "requests", "pandas", "stockstats", "iwencai 语义搜索需 API Key，其余数据源免费无 Key"],
+    features: ["7 层架构", "28 个端点", "13 个数据源", "行情/K线/盘口", "个股与行业研报", "题材归因", "北向资金", "龙虎榜", "解禁", "两融", "大宗交易", "股东户数", "财报三表", "巨潮公告"],
   },
 };
 
@@ -325,6 +345,7 @@ const focusSignal = document.querySelector("#focusSignal");
 const mapCaption = document.querySelector("#mapCaption");
 const engineList = document.querySelector("#engineList");
 const capabilityGrid = document.querySelector("#capabilityGrid");
+const projectDetail = document.querySelector("#projectDetail");
 
 function getBriefEngines(brief) {
   if (brief.channel === "macro") return ["worldmonitor", "digital-oracle"];
@@ -415,15 +436,57 @@ function renderCapabilityGrid() {
     .map((engine) => {
       const profile = engineProfiles[engine];
       return `
-        <article class="capability-card">
+        <article class="capability-card" data-engine="${engine}" tabindex="0" role="button" aria-label="查看 ${profile.label} 项目详情">
           <span>${profile.method}</span>
           <h3>${profile.label}</h3>
           <p>${profile.role}</p>
-          <ul>${profile.features.map((feature) => `<li>${feature}</li>`).join("")}</ul>
+          <ul>${profile.features.slice(0, 4).map((feature) => `<li>${feature}</li>`).join("")}</ul>
+          <div class="capability-actions">
+            <button type="button" data-engine="${engine}">查看接入说明</button>
+            <a href="${profile.repoUrl}" target="_blank" rel="noreferrer">打开原项目</a>
+          </div>
         </article>
       `;
     })
     .join("");
+}
+
+function renderProjectDetail(engine) {
+  const profile = engineProfiles[engine];
+  projectDetail.innerHTML = `
+    <div class="project-detail-head">
+      <div>
+        <p class="eyebrow">Project Drilldown</p>
+        <h2>${profile.label}</h2>
+        <p>${profile.role}</p>
+      </div>
+      <div class="project-links">
+        <a href="${profile.repoUrl}" target="_blank" rel="noreferrer">打开 GitHub</a>
+        <a href="${profile.docsUrl}" target="_blank" rel="noreferrer">查看文档</a>
+      </div>
+    </div>
+    <div class="project-detail-grid">
+      <section>
+        <h3>保留能力</h3>
+        <ul>${profile.features.map((feature) => `<li>${feature}</li>`).join("")}</ul>
+      </section>
+      <section>
+        <h3>部署 / 接入要求</h3>
+        <ul>${profile.requirements.map((item) => `<li>${item}</li>`).join("")}</ul>
+      </section>
+      <section>
+        <h3>快速开始</h3>
+        <pre><code>${profile.quickStart.join("\n")}</code></pre>
+      </section>
+      <section>
+        <h3>License / 边界</h3>
+        <p>${profile.license}。本网页提供项目入口、能力映射和接入说明；原项目的完整功能、部署约束、数据源要求与许可证以 GitHub 仓库为准。</p>
+      </section>
+    </div>
+  `;
+  document.querySelectorAll(".capability-card").forEach((card) => {
+    card.classList.toggle("selected", card.dataset.engine === engine);
+  });
 }
 
 function renderCards() {
@@ -556,5 +619,22 @@ cardsEl.addEventListener("click", (event) => {
   button.textContent = isOpen ? "收起简报详情" : "展开简报详情";
 });
 
+capabilityGrid.addEventListener("click", (event) => {
+  const action = event.target.closest("a");
+  if (action) return;
+  const target = event.target.closest("[data-engine]");
+  if (!target) return;
+  renderProjectDetail(target.dataset.engine);
+});
+
+capabilityGrid.addEventListener("keydown", (event) => {
+  if (event.key !== "Enter" && event.key !== " ") return;
+  const target = event.target.closest("[data-engine]");
+  if (!target) return;
+  event.preventDefault();
+  renderProjectDetail(target.dataset.engine);
+});
+
 renderCards();
 renderCapabilityGrid();
+renderProjectDetail("worldmonitor");

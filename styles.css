@@ -805,10 +805,24 @@ select {
 }
 
 .capability-card {
+  cursor: pointer;
   padding: 18px;
   border: 1px solid var(--line);
   border-radius: 22px;
   background: rgba(255, 255, 255, 0.055);
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.capability-card:hover,
+.capability-card:focus-visible,
+.capability-card.selected {
+  border-color: rgba(143, 225, 255, 0.68);
+  background: rgba(75, 179, 255, 0.12);
+  transform: translateY(-2px);
+  outline: 0;
 }
 
 .capability-card span {
@@ -839,12 +853,119 @@ select {
   line-height: 1.65;
 }
 
+.capability-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.capability-actions button,
+.capability-actions a,
+.project-links a {
+  display: inline-flex;
+  min-height: 38px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 13px;
+  border: 1px solid rgba(143, 225, 255, 0.44);
+  border-radius: 999px;
+  color: white;
+  background: rgba(75, 179, 255, 0.13);
+  text-decoration: none;
+}
+
+.capability-actions button {
+  color: white;
+}
+
+.project-detail {
+  margin-top: 14px;
+  padding: 22px;
+  border: 1px solid rgba(143, 225, 255, 0.38);
+  border-radius: 24px;
+  background:
+    linear-gradient(135deg, rgba(75, 179, 255, 0.12), transparent 38%),
+    rgba(4, 20, 39, 0.68);
+}
+
+.project-detail-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.project-detail-head h2 {
+  margin-bottom: 8px;
+  color: white;
+  font-size: 32px;
+}
+
+.project-detail-head p {
+  max-width: 760px;
+  margin-bottom: 0;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.project-links,
+.capability-actions {
+  flex-shrink: 0;
+}
+
+.project-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.project-detail-grid section {
+  min-width: 0;
+  padding: 17px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.055);
+}
+
+.project-detail-grid h3 {
+  margin-bottom: 10px;
+  color: var(--blue-2);
+  font-size: 16px;
+}
+
+.project-detail-grid ul {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.project-detail-grid p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.project-detail-grid pre {
+  overflow-x: auto;
+  margin: 0;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  color: #d7efff;
+  background: rgba(0, 9, 22, 0.48);
+  line-height: 1.55;
+}
+
 @media (max-width: 1180px) {
   .hero-grid,
   .cockpit,
   .commandbar,
   .card,
-  .capability-grid {
+  .capability-grid,
+  .project-detail-grid {
     grid-template-columns: 1fr;
   }
 
@@ -869,7 +990,8 @@ select {
 
   .navline,
   .stream-head,
-  .section-title {
+  .section-title,
+  .project-detail-head {
     align-items: flex-start;
     flex-direction: column;
   }
