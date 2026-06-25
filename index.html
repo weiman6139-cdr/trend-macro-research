@@ -47,6 +47,13 @@
           <option value="产业">产业</option>
           <option value="市场异动">市场异动</option>
         </select>
+        <select id="engineSelect" aria-label="能力源">
+          <option value="all">全部能力源</option>
+          <option value="worldmonitor">worldmonitor</option>
+          <option value="digital-oracle">digital-oracle</option>
+          <option value="qlib">Qlib</option>
+          <option value="a-stock-data">a-stock-data</option>
+        </select>
       </section>
 
       <nav class="tabs" aria-label="频道切换">
@@ -63,6 +70,29 @@
           前沿技术事件
         </button>
       </nav>
+
+      <section class="integration-panel" aria-label="参考项目集成">
+        <article>
+          <span>Situational Awareness</span>
+          <h2>worldmonitor</h2>
+          <p>作为全球态势感知层：聚合新闻、地缘、灾害、军事、金融和基础设施流，先发现异常和跨流相关性。</p>
+        </article>
+        <article>
+          <span>Macro Method</span>
+          <h2>digital-oracle</h2>
+          <p>把宏观观察限定在可定价信号上：预测市场、商品、汇率、利率、期权和风险比值，至少三维交叉验证。</p>
+        </article>
+        <article>
+          <span>Quant Engine</span>
+          <h2>Qlib</h2>
+          <p>投资频道预留量化流水线：数据处理、因子挖掘、模型训练、回测、风险建模和组合优化。</p>
+        </article>
+        <article>
+          <span>China Data Layer</span>
+          <h2>a-stock-data</h2>
+          <p>承接 A 股多维数据：行情、研报、热点、资金、新闻、财务和公告，优先用稳定低风控数据源。</p>
+        </article>
+      </section>
 
       <section class="dashboard">
         <aside class="briefing-rail" aria-label="频道摘要">
@@ -87,7 +117,11 @@
           </div>
           <div class="source-note">
             <span>证据规则</span>
-            <p>每条简报必须显示来源、证据数量、置信度和更新时间；没有来源的内容不会进入正式列表。</p>
+            <p>每条简报必须显示来源、证据数量、置信度和更新时间；没有来源或没有能力源路径的内容不会进入正式列表。</p>
+          </div>
+          <div class="engine-note">
+            <span>当前能力源</span>
+            <p id="channelEngines">digital-oracle</p>
           </div>
         </aside>
 

@@ -2,14 +2,40 @@ const channels = {
   macro: {
     title: "世界宏观观察",
     summary: "捕捉关键词热度、地缘事件、商品与利率信号之间的同步变化。",
+    engines: ["worldmonitor", "digital-oracle"],
   },
   investment: {
     title: "投资研究",
     summary: "连接量化因子、研报摘要、产业报告和资产定价线索。",
+    engines: ["qlib", "a-stock-data"],
   },
   frontierTech: {
     title: "前沿技术事件",
     summary: "追踪 AI、自动驾驶、脑机接口、具身智能与芯片产业节点。",
+    engines: ["worldmonitor", "digital-oracle", "a-stock-data"],
+  },
+};
+
+const engineProfiles = {
+  worldmonitor: {
+    label: "worldmonitor",
+    method: "全球态势感知",
+    role: "用策展信息源、跨流相关性、地缘/灾害/军事/金融信号发现异常事件。",
+  },
+  "digital-oracle": {
+    label: "digital-oracle",
+    method: "价格信号交叉验证",
+    role: "用预测市场、商品、汇率、利率、期权和风险比值验证宏观判断。",
+  },
+  qlib: {
+    label: "Qlib",
+    method: "量化研究流水线",
+    role: "把投资线索接入因子、模型训练、回测、风险建模和组合优化。",
+  },
+  "a-stock-data": {
+    label: "a-stock-data",
+    method: "A 股七层数据接入",
+    role: "提供行情、研报、热点、资金、新闻、财务和公告等中国市场证据。",
   },
 };
 
@@ -276,6 +302,7 @@ const state = {
   range: "today",
   heat: "all",
   type: "all",
+  engine: "all",
   search: "",
 };
 
@@ -287,6 +314,30 @@ const channelSummary = document.querySelector("#channelSummary");
 const metricCount = document.querySelector("#metricCount");
 const metricHigh = document.querySelector("#metricHigh");
 const metricAvg = document.querySelector("#metricAvg");
+const channelEngines = document.querySelector("#channelEngines");
+
+function getBriefEngines(brief) {
+  if (brief.channel === "macro") return ["worldmonitor", "digital-oracle"];
+  if (brief.channel === "investment") return ["qlib", "a-stock-data"];
+  if (brief.channel === "frontierTech" && brief.type === "产业") {
+    return ["worldmonitor", "digital-oracle", "a-stock-data"];
+  }
+  return ["worldmonitor", "digital-oracle"];
+}
+
+function getIntegrationPath(brief) {
+  const engines = getBriefEngines(brief).map((engine) => engineProfiles[engine].label);
+  if (brief.channel === "macro") {
+    return `${engines.join(" + ")}：先从全球信息流发现异常，再用可交易价格按短/中/长周期做三维以上交叉验证。`;
+  }
+  if (brief.channel === "investment") {
+    return `${engines.join(" + ")}：先用 A 股数据层抓研报、公告、资金和热点，再进入因子/回测/组合评估链路。`;
+  }
+  if (brief.type === "产业") {
+    return `${engines.join(" + ")}：用全球技术事件做趋势触发，用市场定价和 A 股产业链数据做落地验证。`;
+  }
+  return `${engines.join(" + ")}：先监测全球技术信息流，再用市场定价和产业信号过滤新闻噪音。`;
+}
 
 function isInRange(itemRange, selectedRange) {
   if (selectedRange === "month") return true;
@@ -318,6 +369,7 @@ function getFilteredBriefs() {
       isInRange(brief.range, state.range) &&
       (state.heat === "all" || brief.heat === state.heat) &&
       (state.type === "all" || brief.type === state.type) &&
+      (state.engine === "all" || getBriefEngines(brief).includes(state.engine)) &&
       matchesSearch(brief) &&
       brief.sources.length > 0
     );
@@ -341,12 +393,14 @@ function renderCards() {
 
   channelTitle.textContent = channel.title;
   channelSummary.textContent = channel.summary;
+  channelEngines.textContent = channel.engines.map((engine) => engineProfiles[engine].label).join(" / ");
   resultCount.textContent = `${filteredBriefs.length} 条`;
   renderMetrics(channelBriefs);
 
   cardsEl.innerHTML = filteredBriefs
     .map((brief, index) => {
       const heatText = { high: "高热度", medium: "中热度", low: "低热度" }[brief.heat];
+      const briefEngines = getBriefEngines(brief);
       return `
         <article class="card" style="animation-delay: ${index * 45}ms">
           <div class="card-main">
@@ -355,6 +409,7 @@ function renderCards() {
               <span class="badge">${brief.type}</span>
               <span class="badge confidence">置信度 ${brief.confidence}%</span>
               <span class="badge">${brief.evidence} 条证据</span>
+              ${briefEngines.map((engine) => `<span class="badge engine">${engineProfiles[engine].label}</span>`).join("")}
             </div>
             <h3>${brief.title}</h3>
             <p class="summary">${brief.summary}</p>
@@ -370,6 +425,10 @@ function renderCards() {
               <div class="fact">
                 <span>风险/不确定性</span>
                 <p>${brief.risk}</p>
+              </div>
+              <div class="fact">
+                <span>集成路径</span>
+                <p>${getIntegrationPath(brief)}</p>
               </div>
             </div>
           </div>
@@ -394,6 +453,12 @@ function renderCards() {
             <div>
               <h4>事实 / 推断 / 观点</h4>
               <ul>${brief.facts.map((item) => `<li>${item}</li>`).join("")}</ul>
+            </div>
+            <div>
+              <h4>能力源说明</h4>
+              <ul>${briefEngines
+                .map((engine) => `<li>${engineProfiles[engine].label}：${engineProfiles[engine].role}</li>`)
+                .join("")}</ul>
             </div>
           </section>
         </article>
@@ -427,6 +492,11 @@ document.querySelectorAll(".chip").forEach((chip) => {
 
 document.querySelector("#typeSelect").addEventListener("change", (event) => {
   state.type = event.target.value;
+  renderCards();
+});
+
+document.querySelector("#engineSelect").addEventListener("change", (event) => {
+  state.engine = event.target.value;
   renderCards();
 });
 
