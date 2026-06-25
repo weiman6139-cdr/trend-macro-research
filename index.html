@@ -8,22 +8,49 @@
   </head>
   <body>
     <main class="shell">
-      <header class="topbar">
-        <div class="brand">
-          <span class="brand-mark">TMR</span>
-          <div>
-            <p class="eyebrow">自动生成的趋势研究简报</p>
-            <h1>趋势宏观研究</h1>
+      <header class="hero">
+        <nav class="navline" aria-label="顶栏">
+          <div class="brand">
+            <span class="brand-mark">TMR</span>
+            <div>
+              <p class="eyebrow">Global Trend Intelligence</p>
+              <h1>趋势宏观研究</h1>
+            </div>
           </div>
-        </div>
-        <div class="status-strip" aria-label="平台状态">
-          <span>全自动更新</span>
-          <span>来源可追溯</span>
-          <span>公开只读</span>
-        </div>
+          <div class="status-strip" aria-label="平台状态">
+            <span>全自动生成</span>
+            <span>证据可追溯</span>
+            <span>公开只读</span>
+          </div>
+        </nav>
+
+        <section class="hero-grid" aria-label="产品概览">
+          <div class="hero-copy">
+            <p class="hero-label">全球趋势与投资信号研究</p>
+            <h2>把新闻热度、宏观定价、量化因子和产业数据压缩成可验证的研究简报。</h2>
+            <p>
+              以 worldmonitor 发现异常事件，digital-oracle 做宏观交叉验证，Qlib 进入投资研究链路，
+              a-stock-data 承接中国市场多维证据。
+            </p>
+          </div>
+          <div class="hero-metrics" aria-label="总览指标">
+            <div>
+              <strong>04</strong>
+              <span>能力源</span>
+            </div>
+            <div>
+              <strong>15</strong>
+              <span>自动简报</span>
+            </div>
+            <div>
+              <strong>82%</strong>
+              <span>平均置信度</span>
+            </div>
+          </div>
+        </section>
       </header>
 
-      <section class="control-panel" aria-label="研究筛选">
+      <section class="commandbar" aria-label="研究筛选">
         <div class="search-box">
           <span aria-hidden="true">⌕</span>
           <input id="searchInput" type="search" placeholder="搜索关键词、资产、技术、事件" />
@@ -71,50 +98,81 @@
         </button>
       </nav>
 
-      <section class="dashboard">
-        <aside class="briefing-rail" aria-label="频道摘要">
-          <p class="rail-label">Channel Signal</p>
+      <section class="cockpit" aria-label="频道态势驾驶舱">
+        <aside class="intel-panel">
+          <p class="eyebrow">Channel Signal</p>
           <h2 id="channelTitle">世界宏观观察</h2>
-          <p id="channelSummary">
-            捕捉关键词热度、地缘事件、商品与利率信号之间的同步变化。
-          </p>
+          <p id="channelSummary">捕捉关键词热度、地缘事件、商品与利率信号之间的同步变化。</p>
           <div class="metrics">
             <div>
               <strong id="metricCount">5</strong>
               <span>简报</span>
             </div>
             <div>
-              <strong id="metricHigh">3</strong>
+              <strong id="metricHigh">2</strong>
               <span>高热度</span>
             </div>
             <div>
-              <strong id="metricAvg">82%</strong>
+              <strong id="metricAvg">77%</strong>
               <span>平均置信度</span>
             </div>
           </div>
-          <div class="source-note">
-            <span>证据规则</span>
-            <p>每条简报必须显示来源、证据数量、置信度和更新时间；没有来源或没有能力源路径的内容不会进入正式列表。</p>
-          </div>
           <div class="engine-note">
             <span>当前能力源</span>
-            <p id="channelEngines">digital-oracle</p>
+            <p id="channelEngines">worldmonitor / digital-oracle</p>
+          </div>
+          <div class="rule-card">
+            <span>证据规则</span>
+            <p>每条简报必须显示来源、证据数量、置信度和更新时间；没有来源或能力源路径的内容不会进入正式列表。</p>
           </div>
         </aside>
 
-        <section class="content-stream">
-          <div class="stream-head">
-            <div>
-              <p class="eyebrow">Research Briefs</p>
-              <h2>正在变化的信号</h2>
+        <section class="signal-map" aria-label="趋势信号图">
+          <div class="orbital">
+            <span class="orbit orbit-one"></span>
+            <span class="orbit orbit-two"></span>
+            <span class="orbit orbit-three"></span>
+            <button class="node node-a" type="button">热度</button>
+            <button class="node node-b" type="button">定价</button>
+            <button class="node node-c" type="button">研报</button>
+            <button class="node node-d" type="button">产业</button>
+            <div class="core">
+              <span>Live Synthesis</span>
+              <strong id="focusSignal">红海航运风险重新进入商品定价</strong>
             </div>
-            <span id="resultCount">5 条</span>
           </div>
-          <div id="cards" class="cards" aria-live="polite"></div>
-          <div id="emptyState" class="empty-state" hidden>
-            没有匹配的简报。换一个关键词或筛选条件试试。
+          <div class="map-caption">
+            <p id="mapCaption">worldmonitor 先发现全球事件异常，digital-oracle 再用商品、汇率、利率与期权信号交叉验证。</p>
           </div>
         </section>
+
+        <aside class="engine-stack" aria-label="能力源流水线">
+          <p class="eyebrow">Engine Pipeline</p>
+          <h2>能力源流水线</h2>
+          <div id="engineList" class="engine-list"></div>
+        </aside>
+      </section>
+
+      <section class="content-stream">
+        <div class="stream-head">
+          <div>
+            <p class="eyebrow">Research Briefs</p>
+            <h2>正在变化的信号</h2>
+          </div>
+          <span id="resultCount">5 条</span>
+        </div>
+        <div id="cards" class="cards" aria-live="polite"></div>
+        <div id="emptyState" class="empty-state" hidden>
+          没有匹配的简报。换一个关键词或筛选条件试试。
+        </div>
+      </section>
+
+      <section class="capability-matrix" aria-label="功能矩阵">
+        <div class="section-title">
+          <p class="eyebrow">System Capability</p>
+          <h2>四个参考项目保留为四层能力</h2>
+        </div>
+        <div id="capabilityGrid" class="capability-grid"></div>
       </section>
     </main>
 

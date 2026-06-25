@@ -21,23 +21,29 @@ const engineProfiles = {
     label: "worldmonitor",
     method: "全球态势感知",
     role: "用策展信息源、跨流相关性、地缘/灾害/军事/金融信号发现异常事件。",
+    features: ["500+ 信息源监控", "地缘/灾害/军事/金融交叉", "异常事件触发", "国家不稳定与风险雷达"],
   },
   "digital-oracle": {
     label: "digital-oracle",
     method: "价格信号交叉验证",
     role: "用预测市场、商品、汇率、利率、期权和风险比值验证宏观判断。",
+    features: ["预测市场", "商品/汇率/利率", "期权与波动率", "三维以上证据验证"],
   },
   qlib: {
     label: "Qlib",
     method: "量化研究流水线",
     role: "把投资线索接入因子、模型训练、回测、风险建模和组合优化。",
+    features: ["因子研究", "模型训练", "回测评估", "风险与组合优化"],
   },
   "a-stock-data": {
     label: "a-stock-data",
     method: "A 股七层数据接入",
     role: "提供行情、研报、热点、资金、新闻、财务和公告等中国市场证据。",
+    features: ["行情", "研报", "资金", "公告/财务/新闻"],
   },
 };
+
+const capabilityOrder = ["worldmonitor", "digital-oracle", "qlib", "a-stock-data"];
 
 const briefs = [
   {
@@ -315,6 +321,10 @@ const metricCount = document.querySelector("#metricCount");
 const metricHigh = document.querySelector("#metricHigh");
 const metricAvg = document.querySelector("#metricAvg");
 const channelEngines = document.querySelector("#channelEngines");
+const focusSignal = document.querySelector("#focusSignal");
+const mapCaption = document.querySelector("#mapCaption");
+const engineList = document.querySelector("#engineList");
+const capabilityGrid = document.querySelector("#capabilityGrid");
 
 function getBriefEngines(brief) {
   if (brief.channel === "macro") return ["worldmonitor", "digital-oracle"];
@@ -386,6 +396,36 @@ function renderMetrics(channelBriefs) {
   metricAvg.textContent = `${avg}%`;
 }
 
+function renderEngineList(channel) {
+  engineList.innerHTML = channel.engines
+    .map((engine, index) => {
+      const profile = engineProfiles[engine];
+      return `
+        <article class="engine-item">
+          <strong>${profile.label}<span>0${index + 1}</span></strong>
+          <p>${profile.method}。${profile.role}</p>
+        </article>
+      `;
+    })
+    .join("");
+}
+
+function renderCapabilityGrid() {
+  capabilityGrid.innerHTML = capabilityOrder
+    .map((engine) => {
+      const profile = engineProfiles[engine];
+      return `
+        <article class="capability-card">
+          <span>${profile.method}</span>
+          <h3>${profile.label}</h3>
+          <p>${profile.role}</p>
+          <ul>${profile.features.map((feature) => `<li>${feature}</li>`).join("")}</ul>
+        </article>
+      `;
+    })
+    .join("");
+}
+
 function renderCards() {
   const channel = channels[state.channel];
   const channelBriefs = briefs.filter((brief) => brief.channel === state.channel);
@@ -394,8 +434,11 @@ function renderCards() {
   channelTitle.textContent = channel.title;
   channelSummary.textContent = channel.summary;
   channelEngines.textContent = channel.engines.map((engine) => engineProfiles[engine].label).join(" / ");
+  focusSignal.textContent = filteredBriefs[0]?.title ?? channel.title;
+  mapCaption.textContent = getIntegrationPath(filteredBriefs[0] ?? channelBriefs[0]);
   resultCount.textContent = `${filteredBriefs.length} 条`;
   renderMetrics(channelBriefs);
+  renderEngineList(channel);
 
   cardsEl.innerHTML = filteredBriefs
     .map((brief, index) => {
@@ -514,3 +557,4 @@ cardsEl.addEventListener("click", (event) => {
 });
 
 renderCards();
+renderCapabilityGrid();
