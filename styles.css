@@ -835,6 +835,30 @@ select {
   font-size: 12px;
 }
 
+.deploy-state {
+  display: inline-flex;
+  margin-left: 8px;
+  padding: 6px 9px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 760;
+}
+
+.deploy-state.deployed,
+.deployment-banner.deployed {
+  border: 1px solid rgba(134, 247, 198, 0.38);
+  color: var(--good);
+  background: rgba(134, 247, 198, 0.1);
+}
+
+.deploy-state.pending,
+.deployment-banner.pending {
+  border: 1px solid rgba(255, 184, 111, 0.42);
+  color: var(--warning);
+  background: rgba(255, 184, 111, 0.1);
+}
+
 .capability-card h3 {
   margin-bottom: 10px;
   color: white;
@@ -908,6 +932,25 @@ select {
   margin-bottom: 0;
   color: var(--muted);
   line-height: 1.65;
+}
+
+.deployment-banner {
+  display: grid;
+  gap: 5px;
+  width: fit-content;
+  max-width: 100%;
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-radius: 16px;
+}
+
+.deployment-banner strong {
+  color: inherit;
+}
+
+.deployment-banner span {
+  color: var(--muted);
+  font-size: 13px;
 }
 
 .project-links,

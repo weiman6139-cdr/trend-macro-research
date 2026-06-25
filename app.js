@@ -23,6 +23,11 @@ const engineProfiles = {
     role: "用策展信息源、跨流相关性、地缘/灾害/军事/金融信号发现异常事件。",
     repoUrl: "https://github.com/koala73/worldmonitor.git",
     docsUrl: "https://www.worldmonitor.app/docs/documentation",
+    localStatus: "pending",
+    localStatusText: "待部署：GitHub 大仓库传输超时",
+    localPath: "integrations/worldmonitor",
+    localEntry: "",
+    localRunUrl: "http://127.0.0.1:3000",
     license: "AGPL-3.0-only",
     quickStart: ["git clone https://github.com/koala73/worldmonitor.git", "cd worldmonitor", "npm install", "npm run dev"],
     requirements: ["Node.js / npm", "无环境变量即可启动基础应用", "特定实时数据源按 .env.example 配置凭证"],
@@ -34,6 +39,11 @@ const engineProfiles = {
     role: "用预测市场、商品、汇率、利率、期权和风险比值验证宏观判断。",
     repoUrl: "https://github.com/komako-workshop/digital-oracle.git",
     docsUrl: "https://github.com/komako-workshop/digital-oracle/blob/main/SKILL.md",
+    localStatus: "deployed",
+    localStatusText: "已部署：本地源码和 SKILL.md 可用",
+    localPath: "integrations/digital-oracle",
+    localEntry: "./integrations/digital-oracle/SKILL.md",
+    localRunUrl: "",
     license: "MIT",
     quickStart: ["clawhub install digital-oracle", "或 clone 仓库并读取 SKILL.md", "uv pip install yfinance"],
     requirements: ["uv", "11/12 个 provider 仅依赖 Python 标准库", "期权链分析需要 yfinance"],
@@ -45,6 +55,11 @@ const engineProfiles = {
     role: "把投资线索接入因子、模型训练、回测、风险建模和组合优化。",
     repoUrl: "https://github.com/microsoft/qlib.git",
     docsUrl: "https://qlib.readthedocs.io/en/latest/",
+    localStatus: "pending",
+    localStatusText: "待部署：源码包下载超时，pyqlib 未安装",
+    localPath: "integrations/qlib",
+    localEntry: "",
+    localRunUrl: "",
     license: "开源许可见原仓库 LICENSE",
     quickStart: ["pip install pyqlib", "或 git clone https://github.com/microsoft/qlib.git", "cd qlib && pip install ."],
     requirements: ["Python 3.8 - 3.12", "建议 Conda 管理 Python 环境", "Mac M1 构建 LightGBM 可能需要 brew install libomp", "数据准备需参考官方文档"],
@@ -56,6 +71,11 @@ const engineProfiles = {
     role: "提供行情、研报、热点、资金、新闻、财务和公告等中国市场证据。",
     repoUrl: "https://github.com/simonlin1212/a-stock-data.git",
     docsUrl: "https://github.com/simonlin1212/a-stock-data/blob/main/SKILL.md",
+    localStatus: "deployed",
+    localStatusText: "已部署：本地源码和 SKILL.md 可用",
+    localPath: "integrations/a-stock-data",
+    localEntry: "./integrations/a-stock-data/SKILL.md",
+    localRunUrl: "",
     license: "按原仓库说明执行",
     quickStart: ["mkdir -p ~/.claude/skills/a-stock-data", "curl -o ~/.claude/skills/a-stock-data/SKILL.md https://raw.githubusercontent.com/simonlin1212/a-stock-data/main/SKILL.md", "pip install mootdx requests pandas stockstats"],
     requirements: ["Python", "mootdx", "requests", "pandas", "stockstats", "iwencai 语义搜索需 API Key，其余数据源免费无 Key"],
@@ -438,12 +458,17 @@ function renderCapabilityGrid() {
       return `
         <article class="capability-card" data-engine="${engine}" tabindex="0" role="button" aria-label="查看 ${profile.label} 项目详情">
           <span>${profile.method}</span>
+          <em class="deploy-state ${profile.localStatus}">${profile.localStatus === "deployed" ? "已本地部署" : "待部署"}</em>
           <h3>${profile.label}</h3>
           <p>${profile.role}</p>
           <ul>${profile.features.slice(0, 4).map((feature) => `<li>${feature}</li>`).join("")}</ul>
           <div class="capability-actions">
-            <button type="button" data-engine="${engine}">查看接入说明</button>
-            <a href="${profile.repoUrl}" target="_blank" rel="noreferrer">打开原项目</a>
+            <button type="button" data-engine="${engine}">进入项目</button>
+            ${
+              profile.localEntry
+                ? `<a href="${profile.localEntry}" target="_blank" rel="noreferrer">本地文档</a>`
+                : `<a href="${profile.repoUrl}" target="_blank" rel="noreferrer">原仓库</a>`
+            }
           </div>
         </article>
       `;
@@ -459,13 +484,27 @@ function renderProjectDetail(engine) {
         <p class="eyebrow">Project Drilldown</p>
         <h2>${profile.label}</h2>
         <p>${profile.role}</p>
+        <div class="deployment-banner ${profile.localStatus}">
+          <strong>${profile.localStatusText}</strong>
+          <span>本地路径：${profile.localPath}</span>
+        </div>
       </div>
       <div class="project-links">
-        <a href="${profile.repoUrl}" target="_blank" rel="noreferrer">打开 GitHub</a>
+        ${
+          profile.localEntry
+            ? `<a href="${profile.localEntry}" target="_blank" rel="noreferrer">打开本地项目文档</a>`
+            : `<a href="${profile.repoUrl}" target="_blank" rel="noreferrer">打开原仓库</a>`
+        }
+        ${profile.localRunUrl ? `<a href="${profile.localRunUrl}" target="_blank" rel="noreferrer">打开本地服务</a>` : ""}
         <a href="${profile.docsUrl}" target="_blank" rel="noreferrer">查看文档</a>
       </div>
     </div>
     <div class="project-detail-grid">
+      <section>
+        <h3>本地穿透状态</h3>
+        <p>${profile.localStatusText}</p>
+        <p>当前网页主入口优先指向本地项目文件或本地服务；若状态为待部署，则先按快速开始命令完成部署。</p>
+      </section>
       <section>
         <h3>保留能力</h3>
         <ul>${profile.features.map((feature) => `<li>${feature}</li>`).join("")}</ul>
@@ -480,7 +519,7 @@ function renderProjectDetail(engine) {
       </section>
       <section>
         <h3>License / 边界</h3>
-        <p>${profile.license}。本网页提供项目入口、能力映射和接入说明；原项目的完整功能、部署约束、数据源要求与许可证以 GitHub 仓库为准。</p>
+        <p>${profile.license}。本网页提供本地部署入口、能力映射和接入说明；原项目的完整功能、部署约束、数据源要求与许可证以本地源码和原仓库为准。</p>
       </section>
     </div>
   `;

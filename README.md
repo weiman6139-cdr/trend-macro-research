@@ -16,6 +16,13 @@
 - `Qlib`：作为投资研究频道的量化研究引擎参考，承接因子、模型训练、回测、风险建模和组合优化。
 - `a-stock-data`：作为中国市场数据层参考，承接行情、研报、热点、资金、新闻、财务和公告。
 
+## 本地部署状态
+
+- `digital-oracle`：已部署到 `integrations/digital-oracle`，本地 `SKILL.md`、providers、references、scripts、tests 可用。
+- `a-stock-data`：已部署到 `integrations/a-stock-data`，本地 `SKILL.md`、README、assets、license 可用。
+- `worldmonitor`：待部署。当前网络下 `git clone --depth 1` 发生 GitHub 传输断开，需网络稳定后重试。
+- `Qlib`：待部署。当前网络下 `git clone --depth 1` 和源码包下载均超时，且本机未安装 `pyqlib`。
+
 ## 当前功能
 
 - 三个频道 Tab 切换
@@ -23,7 +30,7 @@
 - 时间范围、热度、内容类型筛选
 - 能力源筛选：`worldmonitor`、`digital-oracle`、`Qlib`、`a-stock-data`
 - 频道态势驾驶舱：情报指标、信号地图、能力源流水线
-- 四层能力矩阵：展示四个参考项目保留为可接入的系统能力，支持点击穿透到项目接入说明和原 GitHub 仓库
+- 四层能力矩阵：展示四个参考项目保留为可接入的系统能力，支持点击穿透到本地部署状态、本地项目文档或部署命令
 - 三类频道各 5 张研究简报卡
 - 卡片展开后显示事件线、事实/推断/观点、能力源说明
 - 每条简报展示来源、证据数量、置信度和更新时间
