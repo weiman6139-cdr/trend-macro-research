@@ -214,23 +214,6 @@ select {
   margin: 14px 0;
 }
 
-.integration-panel {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-  margin-bottom: 14px;
-}
-
-.integration-panel article {
-  min-height: 156px;
-  padding: 18px;
-  border: 1px solid var(--line);
-  background:
-    linear-gradient(135deg, rgba(214, 255, 98, 0.1), transparent 45%),
-    rgba(18, 23, 22, 0.88);
-}
-
-.integration-panel span,
 .engine-note span {
   display: block;
   margin-bottom: 8px;
@@ -239,19 +222,6 @@ select {
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-}
-
-.integration-panel h2 {
-  margin-bottom: 10px;
-  color: var(--paper);
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 26px;
-}
-
-.integration-panel p {
-  margin: 0;
-  color: var(--muted);
-  line-height: 1.65;
 }
 
 .tab {
@@ -560,8 +530,7 @@ select {
 @media (max-width: 1040px) {
   .control-panel,
   .dashboard,
-  .card,
-  .integration-panel {
+  .card {
     grid-template-columns: 1fr;
   }
 
