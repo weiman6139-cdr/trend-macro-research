@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>趋势宏观研究</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand-mark">TMR</span>
+          <div>
+            <p class="eyebrow">自动生成的趋势研究简报</p>
+            <h1>趋势宏观研究</h1>
+          </div>
+        </div>
+        <div class="status-strip" aria-label="平台状态">
+          <span>全自动更新</span>
+          <span>来源可追溯</span>
+          <span>公开只读</span>
+        </div>
+      </header>
+
+      <section class="control-panel" aria-label="研究筛选">
+        <div class="search-box">
+          <span aria-hidden="true">⌕</span>
+          <input id="searchInput" type="search" placeholder="搜索关键词、资产、技术、事件" />
+        </div>
+        <div class="segmented" role="group" aria-label="时间范围">
+          <button class="chip active" data-filter="range" data-value="today">今日</button>
+          <button class="chip" data-filter="range" data-value="week">本周</button>
+          <button class="chip" data-filter="range" data-value="month">本月</button>
+        </div>
+        <div class="segmented" role="group" aria-label="热度">
+          <button class="chip active" data-filter="heat" data-value="all">全部热度</button>
+          <button class="chip" data-filter="heat" data-value="high">高</button>
+          <button class="chip" data-filter="heat" data-value="medium">中</button>
+          <button class="chip" data-filter="heat" data-value="low">低</button>
+        </div>
+        <select id="typeSelect" aria-label="内容类型">
+          <option value="all">全部类型</option>
+          <option value="事件">事件</option>
+          <option value="趋势">趋势</option>
+          <option value="研报">研报</option>
+          <option value="产业">产业</option>
+          <option value="市场异动">市场异动</option>
+        </select>
+      </section>
+
+      <nav class="tabs" aria-label="频道切换">
+        <button class="tab active" data-channel="macro">
+          <span>01</span>
+          世界宏观观察
+        </button>
+        <button class="tab" data-channel="investment">
+          <span>02</span>
+          投资研究
+        </button>
+        <button class="tab" data-channel="frontierTech">
+          <span>03</span>
+          前沿技术事件
+        </button>
+      </nav>
+
+      <section class="dashboard">
+        <aside class="briefing-rail" aria-label="频道摘要">
+          <p class="rail-label">Channel Signal</p>
+          <h2 id="channelTitle">世界宏观观察</h2>
+          <p id="channelSummary">
+            捕捉关键词热度、地缘事件、商品与利率信号之间的同步变化。
+          </p>
+          <div class="metrics">
+            <div>
+              <strong id="metricCount">5</strong>
+              <span>简报</span>
+            </div>
+            <div>
+              <strong id="metricHigh">3</strong>
+              <span>高热度</span>
+            </div>
+            <div>
+              <strong id="metricAvg">82%</strong>
+              <span>平均置信度</span>
+            </div>
+          </div>
+          <div class="source-note">
+            <span>证据规则</span>
+            <p>每条简报必须显示来源、证据数量、置信度和更新时间；没有来源的内容不会进入正式列表。</p>
+          </div>
+        </aside>
+
+        <section class="content-stream">
+          <div class="stream-head">
+            <div>
+              <p class="eyebrow">Research Briefs</p>
+              <h2>正在变化的信号</h2>
+            </div>
+            <span id="resultCount">5 条</span>
+          </div>
+          <div id="cards" class="cards" aria-live="polite"></div>
+          <div id="emptyState" class="empty-state" hidden>
+            没有匹配的简报。换一个关键词或筛选条件试试。
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
