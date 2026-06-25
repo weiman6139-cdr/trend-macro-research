@@ -886,7 +886,8 @@ select {
 
 .capability-actions button,
 .capability-actions a,
-.project-links a {
+.project-links a,
+.disabled-link {
   display: inline-flex;
   min-height: 38px;
   align-items: center;
@@ -897,6 +898,13 @@ select {
   color: white;
   background: rgba(75, 179, 255, 0.13);
   text-decoration: none;
+}
+
+.disabled-link {
+  color: var(--faint);
+  border-color: rgba(143, 225, 255, 0.18);
+  background: rgba(255, 255, 255, 0.04);
+  cursor: not-allowed;
 }
 
 .capability-actions button {

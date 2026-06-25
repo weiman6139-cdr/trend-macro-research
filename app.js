@@ -27,7 +27,7 @@ const engineProfiles = {
     localStatusText: "待部署：GitHub 大仓库传输超时",
     localPath: "integrations/worldmonitor",
     localEntry: "",
-    localRunUrl: "http://127.0.0.1:3000",
+    localRunUrl: "",
     license: "AGPL-3.0-only",
     quickStart: ["git clone https://github.com/koala73/worldmonitor.git", "cd worldmonitor", "npm install", "npm run dev"],
     requirements: ["Node.js / npm", "无环境变量即可启动基础应用", "特定实时数据源按 .env.example 配置凭证"],
@@ -495,7 +495,11 @@ function renderProjectDetail(engine) {
             ? `<a href="${profile.localEntry}" target="_blank" rel="noreferrer">打开本地项目文档</a>`
             : `<a href="${profile.repoUrl}" target="_blank" rel="noreferrer">打开原仓库</a>`
         }
-        ${profile.localRunUrl ? `<a href="${profile.localRunUrl}" target="_blank" rel="noreferrer">打开本地服务</a>` : ""}
+        ${
+          profile.localRunUrl
+            ? `<a href="${profile.localRunUrl}" target="_blank" rel="noreferrer">打开本地服务</a>`
+            : `<span class="disabled-link">部署后可打开本地服务</span>`
+        }
         <a href="${profile.docsUrl}" target="_blank" rel="noreferrer">查看文档</a>
       </div>
     </div>
