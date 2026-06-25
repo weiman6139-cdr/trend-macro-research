@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>a-stock-data · A 股七层数据架构</title>
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <main class="shell project-page">
+      <header class="project-hero">
+        <a class="page-back" href="../index.html">返回趋势宏观研究</a>
+        <div class="section-title">
+          <div>
+            <p class="eyebrow">A-Stock Data Platform</p>
+            <h1>A 股七层数据架构</h1>
+          </div>
+          <div class="project-links">
+            <a href="../integrations/a-stock-data/SKILL.md" target="_blank" rel="noreferrer">本地文档</a>
+            <a href="https://github.com/simonlin1212/a-stock-data.git" target="_blank" rel="noreferrer">原仓库</a>
+          </div>
+        </div>
+        <p>
+          按 a-stock-data 的 README / SKILL.md 组织行情、研报、热点、资金、新闻、财务和公告能力。
+          当前页面是本地部署后的能力穿透页，先展示端点结构与接入规则，后续可在这里接入真实数据服务。
+        </p>
+        <div class="deployment-banner deployed">
+          <strong>已部署：本地源码和 SKILL.md 可用</strong>
+          <span>28 端点 · 13 数据源 · 直连 HTTP / mootdx TCP · 本地路径：integrations/a-stock-data</span>
+        </div>
+      </header>
+
+      <section class="astock-platform" aria-label="a-stock-data 七层数据架构平台">
+        <div class="astock-shell">
+          <aside class="layer-rail" aria-label="七层架构导航">
+            <div id="layerTabs" class="layer-tabs"></div>
+          </aside>
+          <article class="layer-stage" aria-live="polite">
+            <div class="layer-stage-head">
+              <div>
+                <p id="layerIndex" class="eyebrow">Layer 01</p>
+                <h2 id="layerTitle">行情层</h2>
+                <p id="layerSummary">K 线、盘口、实时估值和指数 ETF 行情入口。</p>
+              </div>
+              <div id="layerRisk" class="risk-badge">低风控</div>
+            </div>
+            <div class="layer-metrics" id="layerMetrics"></div>
+            <div class="layer-body">
+              <section>
+                <h3>数据源</h3>
+                <div id="layerSources" class="source-chips"></div>
+              </section>
+              <section>
+                <h3>端点能力</h3>
+                <div id="layerEndpoints" class="endpoint-grid"></div>
+              </section>
+              <section>
+                <h3>投研用途</h3>
+                <ul id="layerUseCases" class="usecase-list"></ul>
+              </section>
+            </div>
+          </article>
+          <aside class="platform-console" aria-label="接入控制台">
+            <p class="eyebrow">Access Console</p>
+            <h2>接入规则</h2>
+            <div class="console-stack">
+              <div>
+                <span>优先级</span>
+                <strong>mootdx / 腾讯优先</strong>
+                <p>行情、K 线、实时价、市值和财务快照优先走低封禁风险数据源。</p>
+              </div>
+              <div>
+                <span>东财规则</span>
+                <strong>串行限流</strong>
+                <p>东财仅用于独有数据，统一走 em_get，间隔不少于 1 秒并加入随机抖动。</p>
+              </div>
+              <div>
+                <span>鉴权</span>
+                <strong>仅 iwencai 需要 Key</strong>
+                <p>研报自然语言搜索需要 API Key，其余数据源以免费公开接口为主。</p>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <script src="./a-stock-data.js"></script>
+  </body>
+</html>

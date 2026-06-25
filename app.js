@@ -23,6 +23,7 @@ const engineProfiles = {
     role: "用策展信息源、跨流相关性、地缘/灾害/军事/金融信号发现异常事件。",
     repoUrl: "https://github.com/koala73/worldmonitor.git",
     docsUrl: "https://www.worldmonitor.app/docs/documentation",
+    projectUrl: "./projects/worldmonitor.html",
     localStatus: "pending",
     localStatusText: "待部署：GitHub 大仓库传输超时",
     localPath: "integrations/worldmonitor",
@@ -39,6 +40,7 @@ const engineProfiles = {
     role: "用预测市场、商品、汇率、利率、期权和风险比值验证宏观判断。",
     repoUrl: "https://github.com/komako-workshop/digital-oracle.git",
     docsUrl: "https://github.com/komako-workshop/digital-oracle/blob/main/SKILL.md",
+    projectUrl: "./projects/digital-oracle.html",
     localStatus: "deployed",
     localStatusText: "已部署：本地源码和 SKILL.md 可用",
     localPath: "integrations/digital-oracle",
@@ -55,6 +57,7 @@ const engineProfiles = {
     role: "把投资线索接入因子、模型训练、回测、风险建模和组合优化。",
     repoUrl: "https://github.com/microsoft/qlib.git",
     docsUrl: "https://qlib.readthedocs.io/en/latest/",
+    projectUrl: "./projects/qlib.html",
     localStatus: "pending",
     localStatusText: "待部署：源码包下载超时，pyqlib 未安装",
     localPath: "integrations/qlib",
@@ -71,6 +74,7 @@ const engineProfiles = {
     role: "提供行情、研报、热点、资金、新闻、财务和公告等中国市场证据。",
     repoUrl: "https://github.com/simonlin1212/a-stock-data.git",
     docsUrl: "https://github.com/simonlin1212/a-stock-data/blob/main/SKILL.md",
+    projectUrl: "./projects/a-stock-data.html",
     localStatus: "deployed",
     localStatusText: "已部署：本地源码和 SKILL.md 可用",
     localPath: "integrations/a-stock-data",
@@ -84,79 +88,6 @@ const engineProfiles = {
 };
 
 const capabilityOrder = ["worldmonitor", "digital-oracle", "qlib", "a-stock-data"];
-
-const aStockLayers = [
-  {
-    title: "行情层",
-    summary: "实时行情、K 线、盘口、PE/PB、市值、指数和 ETF 的低风险入口。",
-    sources: ["mootdx", "腾讯财经", "百度股市通"],
-    endpoints: ["K线带 MA5/10/20", "五档盘口", "逐笔成交", "PE / PB / 市值", "指数 / ETF"],
-    useCases: ["单票估值前置报价", "指数与 ETF 横向对比", "交易层异动验证"],
-    risk: "低风控",
-    cadence: "实时 / 分钟级",
-    priority: "优先级 1",
-  },
-  {
-    title: "研报层",
-    summary: "个股研报、行业研报、PDF 下载、一致预期和自然语言研报搜索。",
-    sources: ["东财 reportapi", "同花顺", "iwencai"],
-    endpoints: ["个股研报", "行业研报", "研报 PDF", "一致预期 EPS", "NL 语义搜索"],
-    useCases: ["产业链主题检索", "盈利预测校验", "卖方观点聚合"],
-    risk: "中风控",
-    cadence: "日级 / 事件触发",
-    priority: "研究入口",
-  },
-  {
-    title: "信号层",
-    summary: "强势股、题材归因、北向资金、板块归属、资金流、龙虎榜、解禁和行业对比。",
-    sources: ["同花顺热点", "同花顺北向", "东财 push2 / datacenter"],
-    endpoints: ["强势股", "题材 reason tags", "北向分钟流", "概念板块归属", "龙虎榜", "解禁日历"],
-    useCases: ["题材归因", "资金异动发现", "行业轮动跟踪"],
-    risk: "中风控",
-    cadence: "分钟级 / 日级",
-    priority: "信号发现",
-  },
-  {
-    title: "资金面 / 筹码层",
-    summary: "融资融券、大宗交易、股东户数、分红送转和 120 日资金流。",
-    sources: ["东财 datacenter", "东财 push2his"],
-    endpoints: ["两融明细", "大宗交易", "股东户数", "分红送转", "资金流 120 日"],
-    useCases: ["筹码集中度判断", "杠杆资金跟踪", "交易结构验证"],
-    risk: "中高风控",
-    cadence: "日级 / 季度",
-    priority: "交易结构",
-  },
-  {
-    title: "新闻层",
-    summary: "东财个股新闻和 7×24 全球财经资讯，替代已下线的财联社旧接口。",
-    sources: ["东财 search-api-web", "东财 np-weblist"],
-    endpoints: ["个股新闻", "全球资讯", "7×24 快讯"],
-    useCases: ["事件触发解释", "公告前后舆情", "宏观资讯补充"],
-    risk: "中风控",
-    cadence: "实时 / 快讯",
-    priority: "事件语境",
-  },
-  {
-    title: "基础数据层",
-    summary: "季报快照、F10 公司资料、东财个股信息和新浪财报三表。",
-    sources: ["mootdx finance", "mootdx F10", "东财 push2", "新浪财经"],
-    endpoints: ["季报 37 字段", "F10 九大类", "总股本 / 流通股", "资产负债表", "利润表", "现金流量表"],
-    useCases: ["公司画像", "财务质量筛选", "估值分母校验"],
-    risk: "低风控",
-    cadence: "财报期 / 静态资料",
-    priority: "基本面底座",
-  },
-  {
-    title: "公告层",
-    summary: "巨潮公告全文检索与下载，并用 mootdx F10 补充最新公告摘要。",
-    sources: ["巨潮 cninfo", "mootdx F10"],
-    endpoints: ["公告全文检索", "公告下载", "最新公告摘要", "orgId 动态映射"],
-    useCases: ["重大事项追踪", "风险提示核验", "公司行为证据链"],
-    risk: "低风控",
-    cadence: "公告触发",
-    priority: "证据归档",
-  },
-];
 
 const briefs = [
   {
@@ -423,7 +354,6 @@ const state = {
   type: "all",
   engine: "all",
   search: "",
-  aStockLayer: 0,
 };
 
 const cardsEl = document.querySelector("#cards");
@@ -439,7 +369,6 @@ const focusSignal = document.querySelector("#focusSignal");
 const mapCaption = document.querySelector("#mapCaption");
 const engineList = document.querySelector("#engineList");
 const capabilityGrid = document.querySelector("#capabilityGrid");
-const projectDetail = document.querySelector("#projectDetail");
 
 function getBriefEngines(brief) {
   if (brief.channel === "macro") return ["worldmonitor", "digital-oracle"];
@@ -530,14 +459,14 @@ function renderCapabilityGrid() {
     .map((engine) => {
       const profile = engineProfiles[engine];
       return `
-        <article class="capability-card" data-engine="${engine}" tabindex="0" role="button" aria-label="查看 ${profile.label} 项目详情">
+        <article class="capability-card" data-engine="${engine}" data-project-url="${profile.projectUrl}" tabindex="0" role="button" aria-label="进入 ${profile.label} 项目页面">
           <span>${profile.method}</span>
           <em class="deploy-state ${profile.localStatus}">${profile.localStatus === "deployed" ? "已本地部署" : "待部署"}</em>
           <h3>${profile.label}</h3>
           <p>${profile.role}</p>
           <ul>${profile.features.slice(0, 4).map((feature) => `<li>${feature}</li>`).join("")}</ul>
           <div class="capability-actions">
-            <button type="button" data-engine="${engine}">进入项目</button>
+            <button class="primary-action" type="button" data-project-url="${profile.projectUrl}">进入项目</button>
             ${
               profile.localEntry
                 ? `<a href="${profile.localEntry}" target="_blank" rel="noreferrer">本地文档</a>`
@@ -548,193 +477,6 @@ function renderCapabilityGrid() {
       `;
     })
     .join("");
-}
-
-function renderAStockPlatform(root = projectDetail) {
-  const layer = aStockLayers[state.aStockLayer];
-  const layerTabs = root.querySelector("#layerTabs");
-  const layerIndex = root.querySelector("#layerIndex");
-  const layerTitle = root.querySelector("#layerTitle");
-  const layerSummary = root.querySelector("#layerSummary");
-  const layerRisk = root.querySelector("#layerRisk");
-  const layerMetrics = root.querySelector("#layerMetrics");
-  const layerSources = root.querySelector("#layerSources");
-  const layerEndpoints = root.querySelector("#layerEndpoints");
-  const layerUseCases = root.querySelector("#layerUseCases");
-
-  if (!layerTabs) return;
-
-  layerTabs.innerHTML = aStockLayers
-    .map(
-      (item, index) => `
-        <button class="layer-tab ${index === state.aStockLayer ? "active" : ""}" type="button" data-layer="${index}">
-          <span>${String(index + 1).padStart(2, "0")}</span>
-          <strong>${item.title}</strong>
-          <em>${item.priority}</em>
-        </button>
-      `,
-    )
-    .join("");
-
-  layerIndex.textContent = `Layer ${String(state.aStockLayer + 1).padStart(2, "0")}`;
-  layerTitle.textContent = layer.title;
-  layerSummary.textContent = layer.summary;
-  layerRisk.textContent = layer.risk;
-  layerRisk.className = `risk-badge ${layer.risk.includes("高") ? "warning" : "safe"}`;
-  layerMetrics.innerHTML = `
-    <div><span>数据源</span><strong>${layer.sources.length}</strong></div>
-    <div><span>端点</span><strong>${layer.endpoints.length}</strong></div>
-    <div><span>频率</span><strong>${layer.cadence}</strong></div>
-  `;
-  layerSources.innerHTML = layer.sources.map((source) => `<span>${source}</span>`).join("");
-  layerEndpoints.innerHTML = layer.endpoints
-    .map((endpoint) => `<div><span>${endpoint}</span></div>`)
-    .join("");
-  layerUseCases.innerHTML = layer.useCases.map((item) => `<li>${item}</li>`).join("");
-
-  layerTabs.querySelectorAll("[data-layer]").forEach((button) => {
-    button.addEventListener("click", () => {
-      state.aStockLayer = Number(button.dataset.layer);
-      renderAStockPlatform(root);
-    });
-  });
-}
-
-function renderAStockProjectDetail(profile) {
-  projectDetail.innerHTML = `
-    <section class="astock-platform astock-drilldown" aria-label="a-stock-data 七层数据架构平台">
-      <div class="section-title">
-        <div>
-          <p class="eyebrow">A-Stock Data Platform</p>
-          <h2>A 股七层数据架构</h2>
-        </div>
-        <div class="project-links">
-          <a href="${profile.localEntry}" target="_blank" rel="noreferrer">本地文档</a>
-          <a href="${profile.repoUrl}" target="_blank" rel="noreferrer">原仓库</a>
-        </div>
-      </div>
-      <div class="deployment-banner ${profile.localStatus}">
-        <strong>${profile.localStatusText}</strong>
-        <span>28 端点 · 13 数据源 · 直连 HTTP / mootdx TCP · 本地路径：${profile.localPath}</span>
-      </div>
-      <div class="astock-shell">
-        <aside class="layer-rail" aria-label="七层架构导航">
-          <div id="layerTabs" class="layer-tabs"></div>
-        </aside>
-        <article class="layer-stage" aria-live="polite">
-          <div class="layer-stage-head">
-            <div>
-              <p id="layerIndex" class="eyebrow">Layer 01</p>
-              <h3 id="layerTitle">行情层</h3>
-              <p id="layerSummary">K 线、盘口、实时估值和指数 ETF 行情入口。</p>
-            </div>
-            <div id="layerRisk" class="risk-badge">低风控</div>
-          </div>
-          <div class="layer-metrics" id="layerMetrics"></div>
-          <div class="layer-body">
-            <section>
-              <h4>数据源</h4>
-              <div id="layerSources" class="source-chips"></div>
-            </section>
-            <section>
-              <h4>端点能力</h4>
-              <div id="layerEndpoints" class="endpoint-grid"></div>
-            </section>
-            <section>
-              <h4>投研用途</h4>
-              <ul id="layerUseCases" class="usecase-list"></ul>
-            </section>
-          </div>
-        </article>
-        <aside class="platform-console" aria-label="接入控制台">
-          <p class="eyebrow">Access Console</p>
-          <h3>接入规则</h3>
-          <div class="console-stack">
-            <div>
-              <span>优先级</span>
-              <strong>mootdx / 腾讯优先</strong>
-              <p>行情、K 线、实时价、市值和财务快照优先走低封禁风险数据源。</p>
-            </div>
-            <div>
-              <span>东财规则</span>
-              <strong>串行限流</strong>
-              <p>东财仅用于独有数据，统一走 em_get，间隔不少于 1 秒并加入随机抖动。</p>
-            </div>
-            <div>
-              <span>鉴权</span>
-              <strong>仅 iwencai 需要 Key</strong>
-              <p>研报自然语言搜索需要 API Key，其余数据源以免费公开接口为主。</p>
-            </div>
-          </div>
-        </aside>
-      </div>
-    </section>
-  `;
-  renderAStockPlatform(projectDetail);
-}
-
-function renderProjectDetail(engine) {
-  const profile = engineProfiles[engine];
-  if (engine === "a-stock-data") {
-    renderAStockProjectDetail(profile);
-    document.querySelectorAll(".capability-card").forEach((card) => {
-      card.classList.toggle("selected", card.dataset.engine === engine);
-    });
-    return;
-  }
-
-  projectDetail.innerHTML = `
-    <div class="project-detail-head">
-      <div>
-        <p class="eyebrow">Project Drilldown</p>
-        <h2>${profile.label}</h2>
-        <p>${profile.role}</p>
-        <div class="deployment-banner ${profile.localStatus}">
-          <strong>${profile.localStatusText}</strong>
-          <span>本地路径：${profile.localPath}</span>
-        </div>
-      </div>
-      <div class="project-links">
-        ${
-          profile.localEntry
-            ? `<a href="${profile.localEntry}" target="_blank" rel="noreferrer">打开本地项目文档</a>`
-            : `<a href="${profile.repoUrl}" target="_blank" rel="noreferrer">打开原仓库</a>`
-        }
-        ${
-          profile.localRunUrl
-            ? `<a href="${profile.localRunUrl}" target="_blank" rel="noreferrer">打开本地服务</a>`
-            : `<span class="disabled-link">部署后可打开本地服务</span>`
-        }
-        <a href="${profile.docsUrl}" target="_blank" rel="noreferrer">查看文档</a>
-      </div>
-    </div>
-    <div class="project-detail-grid">
-      <section>
-        <h3>本地穿透状态</h3>
-        <p>${profile.localStatusText}</p>
-        <p>当前网页主入口优先指向本地项目文件或本地服务；若状态为待部署，则先按快速开始命令完成部署。</p>
-      </section>
-      <section>
-        <h3>保留能力</h3>
-        <ul>${profile.features.map((feature) => `<li>${feature}</li>`).join("")}</ul>
-      </section>
-      <section>
-        <h3>部署 / 接入要求</h3>
-        <ul>${profile.requirements.map((item) => `<li>${item}</li>`).join("")}</ul>
-      </section>
-      <section>
-        <h3>快速开始</h3>
-        <pre><code>${profile.quickStart.join("\n")}</code></pre>
-      </section>
-      <section>
-        <h3>License / 边界</h3>
-        <p>${profile.license}。本网页提供本地部署入口、能力映射和接入说明；原项目的完整功能、部署约束、数据源要求与许可证以本地源码和原仓库为准。</p>
-      </section>
-    </div>
-  `;
-  document.querySelectorAll(".capability-card").forEach((card) => {
-    card.classList.toggle("selected", card.dataset.engine === engine);
-  });
 }
 
 function renderCards() {
@@ -870,19 +612,18 @@ cardsEl.addEventListener("click", (event) => {
 capabilityGrid.addEventListener("click", (event) => {
   const action = event.target.closest("a");
   if (action) return;
-  const target = event.target.closest("[data-engine]");
+  const target = event.target.closest("[data-project-url]");
   if (!target) return;
-  renderProjectDetail(target.dataset.engine);
+  window.location.href = target.dataset.projectUrl;
 });
 
 capabilityGrid.addEventListener("keydown", (event) => {
   if (event.key !== "Enter" && event.key !== " ") return;
-  const target = event.target.closest("[data-engine]");
+  const target = event.target.closest("[data-project-url]");
   if (!target) return;
   event.preventDefault();
-  renderProjectDetail(target.dataset.engine);
+  window.location.href = target.dataset.projectUrl;
 });
 
 renderCards();
 renderCapabilityGrid();
-renderProjectDetail("a-stock-data");

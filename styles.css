@@ -71,6 +71,53 @@ button {
   padding: 24px 0 64px;
 }
 
+.project-page {
+  max-width: 1380px;
+}
+
+.project-hero {
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 16px;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 32px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.12), transparent 34%),
+    radial-gradient(circle at 82% 18%, rgba(76, 179, 255, 0.28), transparent 30%),
+    rgba(8, 28, 54, 0.66);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(26px);
+}
+
+.project-hero h1 {
+  margin: 0;
+  color: white;
+  font-size: clamp(36px, 6vw, 76px);
+  line-height: 0.98;
+}
+
+.project-hero > p {
+  max-width: 980px;
+  color: #c3dbef;
+  font-size: 18px;
+  line-height: 1.75;
+}
+
+.page-back {
+  display: inline-flex;
+  min-height: 38px;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 22px;
+  padding: 0 13px;
+  border: 1px solid rgba(143, 225, 255, 0.36);
+  border-radius: 999px;
+  color: var(--blue-2);
+  background: rgba(75, 179, 255, 0.09);
+  text-decoration: none;
+}
+
 .hero {
   position: relative;
   overflow: hidden;
@@ -1159,6 +1206,11 @@ select {
   text-decoration: none;
 }
 
+.capability-actions .primary-action {
+  border-color: rgba(143, 225, 255, 0.72);
+  background: linear-gradient(135deg, rgba(75, 179, 255, 0.34), rgba(29, 111, 255, 0.24));
+}
+
 .disabled-link {
   color: var(--faint);
   border-color: rgba(143, 225, 255, 0.18);
@@ -1229,6 +1281,10 @@ select {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 12px;
+}
+
+.project-detail-grid.standalone {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .project-detail-grid section {
