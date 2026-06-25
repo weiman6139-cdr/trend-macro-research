@@ -440,15 +440,6 @@ const mapCaption = document.querySelector("#mapCaption");
 const engineList = document.querySelector("#engineList");
 const capabilityGrid = document.querySelector("#capabilityGrid");
 const projectDetail = document.querySelector("#projectDetail");
-const layerTabs = document.querySelector("#layerTabs");
-const layerIndex = document.querySelector("#layerIndex");
-const layerTitle = document.querySelector("#layerTitle");
-const layerSummary = document.querySelector("#layerSummary");
-const layerRisk = document.querySelector("#layerRisk");
-const layerMetrics = document.querySelector("#layerMetrics");
-const layerSources = document.querySelector("#layerSources");
-const layerEndpoints = document.querySelector("#layerEndpoints");
-const layerUseCases = document.querySelector("#layerUseCases");
 
 function getBriefEngines(brief) {
   if (brief.channel === "macro") return ["worldmonitor", "digital-oracle"];
@@ -559,8 +550,20 @@ function renderCapabilityGrid() {
     .join("");
 }
 
-function renderAStockPlatform() {
+function renderAStockPlatform(root = projectDetail) {
   const layer = aStockLayers[state.aStockLayer];
+  const layerTabs = root.querySelector("#layerTabs");
+  const layerIndex = root.querySelector("#layerIndex");
+  const layerTitle = root.querySelector("#layerTitle");
+  const layerSummary = root.querySelector("#layerSummary");
+  const layerRisk = root.querySelector("#layerRisk");
+  const layerMetrics = root.querySelector("#layerMetrics");
+  const layerSources = root.querySelector("#layerSources");
+  const layerEndpoints = root.querySelector("#layerEndpoints");
+  const layerUseCases = root.querySelector("#layerUseCases");
+
+  if (!layerTabs) return;
+
   layerTabs.innerHTML = aStockLayers
     .map(
       (item, index) => `
@@ -592,13 +595,94 @@ function renderAStockPlatform() {
   layerTabs.querySelectorAll("[data-layer]").forEach((button) => {
     button.addEventListener("click", () => {
       state.aStockLayer = Number(button.dataset.layer);
-      renderAStockPlatform();
+      renderAStockPlatform(root);
     });
   });
 }
 
+function renderAStockProjectDetail(profile) {
+  projectDetail.innerHTML = `
+    <section class="astock-platform astock-drilldown" aria-label="a-stock-data 七层数据架构平台">
+      <div class="section-title">
+        <div>
+          <p class="eyebrow">A-Stock Data Platform</p>
+          <h2>A 股七层数据架构</h2>
+        </div>
+        <div class="project-links">
+          <a href="${profile.localEntry}" target="_blank" rel="noreferrer">本地文档</a>
+          <a href="${profile.repoUrl}" target="_blank" rel="noreferrer">原仓库</a>
+        </div>
+      </div>
+      <div class="deployment-banner ${profile.localStatus}">
+        <strong>${profile.localStatusText}</strong>
+        <span>28 端点 · 13 数据源 · 直连 HTTP / mootdx TCP · 本地路径：${profile.localPath}</span>
+      </div>
+      <div class="astock-shell">
+        <aside class="layer-rail" aria-label="七层架构导航">
+          <div id="layerTabs" class="layer-tabs"></div>
+        </aside>
+        <article class="layer-stage" aria-live="polite">
+          <div class="layer-stage-head">
+            <div>
+              <p id="layerIndex" class="eyebrow">Layer 01</p>
+              <h3 id="layerTitle">行情层</h3>
+              <p id="layerSummary">K 线、盘口、实时估值和指数 ETF 行情入口。</p>
+            </div>
+            <div id="layerRisk" class="risk-badge">低风控</div>
+          </div>
+          <div class="layer-metrics" id="layerMetrics"></div>
+          <div class="layer-body">
+            <section>
+              <h4>数据源</h4>
+              <div id="layerSources" class="source-chips"></div>
+            </section>
+            <section>
+              <h4>端点能力</h4>
+              <div id="layerEndpoints" class="endpoint-grid"></div>
+            </section>
+            <section>
+              <h4>投研用途</h4>
+              <ul id="layerUseCases" class="usecase-list"></ul>
+            </section>
+          </div>
+        </article>
+        <aside class="platform-console" aria-label="接入控制台">
+          <p class="eyebrow">Access Console</p>
+          <h3>接入规则</h3>
+          <div class="console-stack">
+            <div>
+              <span>优先级</span>
+              <strong>mootdx / 腾讯优先</strong>
+              <p>行情、K 线、实时价、市值和财务快照优先走低封禁风险数据源。</p>
+            </div>
+            <div>
+              <span>东财规则</span>
+              <strong>串行限流</strong>
+              <p>东财仅用于独有数据，统一走 em_get，间隔不少于 1 秒并加入随机抖动。</p>
+            </div>
+            <div>
+              <span>鉴权</span>
+              <strong>仅 iwencai 需要 Key</strong>
+              <p>研报自然语言搜索需要 API Key，其余数据源以免费公开接口为主。</p>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+  `;
+  renderAStockPlatform(projectDetail);
+}
+
 function renderProjectDetail(engine) {
   const profile = engineProfiles[engine];
+  if (engine === "a-stock-data") {
+    renderAStockProjectDetail(profile);
+    document.querySelectorAll(".capability-card").forEach((card) => {
+      card.classList.toggle("selected", card.dataset.engine === engine);
+    });
+    return;
+  }
+
   projectDetail.innerHTML = `
     <div class="project-detail-head">
       <div>
@@ -800,6 +884,5 @@ capabilityGrid.addEventListener("keydown", (event) => {
 });
 
 renderCards();
-renderAStockPlatform();
 renderCapabilityGrid();
 renderProjectDetail("a-stock-data");

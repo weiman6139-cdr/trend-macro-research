@@ -620,6 +620,20 @@ select {
   backdrop-filter: blur(22px);
 }
 
+.project-detail .astock-platform {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.astock-drilldown .deployment-banner {
+  width: 100%;
+  margin: 0 0 16px;
+}
+
 .platform-pill {
   flex-shrink: 0;
   padding: 9px 12px;
