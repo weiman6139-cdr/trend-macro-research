@@ -20,7 +20,7 @@
 
 - `digital-oracle`：已部署到 `integrations/digital-oracle`，本地 `SKILL.md`、providers、references、scripts、tests 可用。
 - `a-stock-data`：已部署到 `integrations/a-stock-data`，本地 `SKILL.md`、README、assets、license 可用。
-- `worldmonitor`：待部署。当前网络下 `git clone --depth 1` 发生 GitHub 传输断开，需网络稳定后重试。
+- `worldmonitor`：已部署。源码位于 `integrations/worldmonitor`，依赖已安装，本地开发服务运行在 `http://127.0.0.1:3100/`。
 - `Qlib`：待部署。当前网络下 `git clone --depth 1` 和源码包下载均超时，且本机未安装 `pyqlib`。
 
 ## 当前功能

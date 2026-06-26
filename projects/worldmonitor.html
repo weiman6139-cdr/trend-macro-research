@@ -16,14 +16,15 @@
             <h1>worldmonitor</h1>
           </div>
           <div class="project-links">
+            <a href="http://127.0.0.1:3100/">打开本地服务</a>
             <a href="https://github.com/koala73/worldmonitor.git" target="_blank" rel="noreferrer">原仓库</a>
             <a href="https://www.worldmonitor.app/docs/documentation" target="_blank" rel="noreferrer">项目文档</a>
           </div>
         </div>
-        <p>worldmonitor 是独立 Web 应用。此前远程仓库下载中断，所以本站还没有本地可运行源码；等源码部署成功后，这里会切换为本地服务入口。</p>
-        <div class="deployment-banner pending">
-          <strong>待部署：GitHub 大仓库传输超时</strong>
-          <span>目标本地路径：integrations/worldmonitor</span>
+        <p>worldmonitor 是独立 Web 应用。当前已按原 README 拉取源码、安装依赖，并启动本地 Vite 服务；基础应用无环境变量即可运行，部分实时数据功能会在缺少 API Key 时降级或提示凭证缺失。</p>
+        <div class="deployment-banner deployed">
+          <strong>已部署：本地服务运行在 127.0.0.1:3100</strong>
+          <span>本地路径：integrations/worldmonitor</span>
         </div>
       </header>
       <section class="project-detail-grid standalone">
@@ -37,8 +38,8 @@
           </ul>
         </section>
         <section>
-          <h2>下一步</h2>
-          <p>需要先完成源码克隆、依赖安装和本地服务启动，再把“进入项目”指向该本地服务。</p>
+          <h2>运行方式</h2>
+          <p>在 integrations/worldmonitor 中执行 npm run dev -- --host 127.0.0.1 --port 3100。当前首页的“进入项目”已直接指向本地服务。</p>
         </section>
       </section>
     </main>
