@@ -157,6 +157,10 @@ button {
   text-decoration: none;
 }
 
+.runtime-frame {
+  position: relative;
+}
+
 .embedded-project iframe {
   display: block;
   width: 100%;
@@ -165,6 +169,60 @@ button {
   border: 1px solid rgba(143, 225, 255, 0.22);
   border-radius: 20px;
   background: #020814;
+}
+
+.runtime-offline {
+  position: absolute;
+  inset: 18px;
+  display: grid;
+  place-content: center;
+  gap: 14px;
+  padding: 22px;
+  border: 1px solid rgba(255, 184, 111, 0.36);
+  border-radius: 18px;
+  color: white;
+  text-align: center;
+  background: rgba(3, 16, 31, 0.92);
+}
+
+.runtime-offline[hidden] {
+  display: none;
+}
+
+.runtime-offline h3 {
+  margin: 0;
+  font-size: 26px;
+}
+
+.runtime-offline p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.runtime-offline pre {
+  max-width: min(720px, 100%);
+  overflow-x: auto;
+  margin: 0;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  color: #d7efff;
+  text-align: left;
+  background: rgba(0, 9, 22, 0.72);
+}
+
+.runtime-offline a {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  justify-content: center;
+  justify-self: center;
+  padding: 0 14px;
+  border: 1px solid rgba(143, 225, 255, 0.44);
+  border-radius: 999px;
+  color: white;
+  background: rgba(75, 179, 255, 0.13);
+  text-decoration: none;
 }
 
 .hero {

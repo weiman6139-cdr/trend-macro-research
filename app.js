@@ -89,7 +89,7 @@ const engineProfiles = {
 
 const capabilityOrder = ["worldmonitor", "digital-oracle", "qlib", "a-stock-data"];
 
-const briefs = [
+let briefs = [
   {
     channel: "macro",
     title: "红海航运风险重新进入商品定价",
@@ -356,6 +356,8 @@ const state = {
   search: "",
 };
 
+let dataSourceMode = "seed";
+
 const cardsEl = document.querySelector("#cards");
 const emptyState = document.querySelector("#emptyState");
 const resultCount = document.querySelector("#resultCount");
@@ -432,9 +434,9 @@ function getFilteredBriefs() {
 
 function renderMetrics(channelBriefs) {
   const highCount = channelBriefs.filter((brief) => brief.heat === "high").length;
-  const avg = Math.round(
-    channelBriefs.reduce((sum, brief) => sum + brief.confidence, 0) / channelBriefs.length,
-  );
+  const avg = channelBriefs.length
+    ? Math.round(channelBriefs.reduce((sum, brief) => sum + brief.confidence, 0) / channelBriefs.length)
+    : 0;
   metricCount.textContent = channelBriefs.length;
   metricHigh.textContent = highCount;
   metricAvg.textContent = `${avg}%`;
@@ -488,7 +490,9 @@ function renderCards() {
   channelSummary.textContent = channel.summary;
   channelEngines.textContent = channel.engines.map((engine) => engineProfiles[engine].label).join(" / ");
   focusSignal.textContent = filteredBriefs[0]?.title ?? channel.title;
-  mapCaption.textContent = getIntegrationPath(filteredBriefs[0] ?? channelBriefs[0]);
+  mapCaption.textContent = filteredBriefs[0] || channelBriefs[0]
+    ? getIntegrationPath(filteredBriefs[0] ?? channelBriefs[0])
+    : "实时数据源暂未返回该频道内容，请稍后刷新或检查本地数据服务。";
   resultCount.textContent = `${filteredBriefs.length} 条`;
   renderMetrics(channelBriefs);
   renderEngineList(channel);
@@ -565,6 +569,23 @@ function renderCards() {
   emptyState.hidden = filteredBriefs.length !== 0;
 }
 
+async function loadRealtimeBriefs() {
+  try {
+    const endpoint = location.protocol === "file:"
+      ? "http://127.0.0.1:3000/api/realtime-briefs"
+      : "/api/realtime-briefs";
+    const response = await fetch(endpoint, { cache: "no-store" });
+    if (!response.ok) throw new Error(`realtime api ${response.status}`);
+    const payload = await response.json();
+    if (!Array.isArray(payload.briefs) || payload.briefs.length === 0) return;
+    briefs = payload.briefs;
+    dataSourceMode = payload.sourceMode || "live";
+    renderCards();
+  } catch (error) {
+    console.warn("实时数据获取失败，继续使用内置示例数据。", error);
+  }
+}
+
 document.querySelectorAll(".tab").forEach((tab) => {
   tab.addEventListener("click", () => {
     document.querySelectorAll(".tab").forEach((item) => item.classList.remove("active"));
@@ -627,3 +648,4 @@ capabilityGrid.addEventListener("keydown", (event) => {
 
 renderCards();
 renderCapabilityGrid();
+loadRealtimeBriefs();

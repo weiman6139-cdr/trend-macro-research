@@ -35,12 +35,23 @@
           </div>
           <a href="http://127.0.0.1:3100/">全屏打开</a>
         </div>
-        <iframe
-          title="worldmonitor 本地服务"
-          src="http://127.0.0.1:3100/"
-          loading="lazy"
-        ></iframe>
+        <div class="runtime-frame">
+          <iframe
+            id="worldmonitorFrame"
+            title="worldmonitor 本地服务"
+            src="http://127.0.0.1:3100/"
+            loading="lazy"
+          ></iframe>
+          <div id="worldmonitorOffline" class="runtime-offline" hidden>
+            <h3>worldmonitor 本地服务未连接</h3>
+            <p>请先启动本地服务，再刷新此页面。</p>
+            <pre><code>cd /Users/wxd/trend-macro-research/integrations/worldmonitor
+npm run dev -- --host 127.0.0.1 --port 3100</code></pre>
+            <a href="http://127.0.0.1:3100/">重新打开本地服务</a>
+          </div>
+        </div>
       </section>
     </main>
+    <script src="./worldmonitor.js"></script>
   </body>
 </html>
