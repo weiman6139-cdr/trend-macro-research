@@ -23,7 +23,7 @@ const engineProfiles = {
     role: "用策展信息源、跨流相关性、地缘/灾害/军事/金融信号发现异常事件。",
     repoUrl: "https://github.com/koala73/worldmonitor.git",
     docsUrl: "https://www.worldmonitor.app/docs/documentation",
-    projectUrl: "http://127.0.0.1:3100/",
+    projectUrl: "./projects/worldmonitor.html",
     localStatus: "deployed",
     localStatusText: "已部署：本地源码可用，开发服务运行在 127.0.0.1:3100",
     localPath: "integrations/worldmonitor",

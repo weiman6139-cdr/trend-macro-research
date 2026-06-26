@@ -118,6 +118,55 @@ button {
   text-decoration: none;
 }
 
+.embedded-project {
+  overflow: hidden;
+  padding: 14px;
+  border: 1px solid rgba(143, 225, 255, 0.36);
+  border-radius: 28px;
+  background:
+    linear-gradient(135deg, rgba(75, 179, 255, 0.12), transparent 36%),
+    rgba(4, 20, 39, 0.72);
+  box-shadow: var(--shadow);
+}
+
+.embedded-project-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 4px 4px 14px;
+}
+
+.embedded-project-head h2 {
+  margin: 0;
+  color: white;
+  font-size: clamp(24px, 4vw, 42px);
+}
+
+.embedded-project-head a {
+  display: inline-flex;
+  min-height: 38px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  padding: 0 13px;
+  border: 1px solid rgba(143, 225, 255, 0.44);
+  border-radius: 999px;
+  color: white;
+  background: rgba(75, 179, 255, 0.13);
+  text-decoration: none;
+}
+
+.embedded-project iframe {
+  display: block;
+  width: 100%;
+  height: min(900px, calc(100vh - 210px));
+  min-height: 640px;
+  border: 1px solid rgba(143, 225, 255, 0.22);
+  border-radius: 20px;
+  background: #020814;
+}
+
 .hero {
   position: relative;
   overflow: hidden;

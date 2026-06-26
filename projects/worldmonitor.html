@@ -27,20 +27,19 @@
           <span>本地路径：integrations/worldmonitor</span>
         </div>
       </header>
-      <section class="project-detail-grid standalone">
-        <section>
-          <h2>计划保留能力</h2>
-          <ul>
-            <li>500+ 策展新闻源</li>
-            <li>3D globe 与 WebGL 地图层</li>
-            <li>地缘、灾害、军事、金融信号交叉</li>
-            <li>国家不稳定指数与金融雷达</li>
-          </ul>
-        </section>
-        <section>
-          <h2>运行方式</h2>
-          <p>在 integrations/worldmonitor 中执行 npm run dev -- --host 127.0.0.1 --port 3100。当前首页的“进入项目”已直接指向本地服务。</p>
-        </section>
+      <section class="embedded-project" aria-label="worldmonitor 本地运行实例">
+        <div class="embedded-project-head">
+          <div>
+            <p class="eyebrow">Local Runtime</p>
+            <h2>worldmonitor 运行实例</h2>
+          </div>
+          <a href="http://127.0.0.1:3100/">全屏打开</a>
+        </div>
+        <iframe
+          title="worldmonitor 本地服务"
+          src="http://127.0.0.1:3100/"
+          loading="lazy"
+        ></iframe>
       </section>
     </main>
   </body>
